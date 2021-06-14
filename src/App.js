@@ -15,7 +15,7 @@ class App extends Component {
         <Route path='/search' render={(props) => (
           <BookPage bookInfo={props.location.state.bookInfo}/>
         )} />
-        <Route path='/add' exact component={AddBookPage} />
+        <Route path='/add' exact component={AddBook} />
       </Router>
     );
   }
@@ -38,6 +38,12 @@ const Home = () => {
   />;
 }
 
+const AddBook = () => {
+  return <AddBookPage add={async (bookInfo) => {
+    await postBook(bookInfo)
+  }} />;
+}
+
 const getBook = async(searchString) => {
   const response = await fetch(`/get?title=${searchString}`);
   const body = await response.json();
@@ -48,5 +54,20 @@ const getBook = async(searchString) => {
 
   return body
 };
+
+const postBook = async (bookInfo) => {
+  // let query = ""
+
+  // for (const [key, value] of Object.entries(bookInfo)) {
+  //   console.log(`${key}: ${value}`);
+  //   query += `${key}=${value}&`
+  // }
+
+  await fetch('/post', {
+    method: 'POST',
+    body: JSON.stringify({bookInfo}),
+    headers: {"Content-Type": "application/json"}
+  })
+}
 
 export default App;

@@ -30,6 +30,12 @@ app.get("/get", async (req, res) => {
     res.send(result)
 })
 
+app.post("/post", async (req, res) => {
+    console.log("hejhej", req.body)
+
+    res.send("HEJ")
+})
+
 const findByTitle = (title) => {
     const regex = new RegExp(title, "gi")
     return new Promise((resolve, reject) => {
