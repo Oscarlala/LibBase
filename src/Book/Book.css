@@ -1,0 +1,27 @@
+#mainContainer {
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+align-items: center;
+margin-top: 1%;
+}
+
+.bookPage {
+  background: #fff;
+}
+
+.book {
+  margin: 2%;
+}
+
+.bookImage {
+  height: 320px;
+  width: 240px;
+  
+}
+
+.infoList {
+  margin-left: 5%;
+  height: 320px;
+  width: 240px;
+}
