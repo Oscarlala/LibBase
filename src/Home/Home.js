@@ -14,6 +14,7 @@ const Home = ({ search, addBook }) => {
   return (
     <div className='home'>
       <div className='search'>
+        <div className="mainContent">
         <input
           className='searchBar'
           type='text'
@@ -22,13 +23,6 @@ const Home = ({ search, addBook }) => {
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         />
-        <button className='button' onClick={() => search(searchString)}>
-          Sök
-        </button>
-        <button className='button' onClick={() => addBook()}>
-          Lägg till bok
-        </button>
-
         <div className='links'>
           <h3
             onClick={() => handleClick("Ange Titel", 0)}
@@ -55,7 +49,17 @@ const Home = ({ search, addBook }) => {
             Sök på ISBN
           </h3>
         </div>
+        <div className="buttonContainer">
+          <button className='button' onClick={() => search(searchString)}>
+            Sök
+          </button>
+          <button className='button' onClick={() => addBook()}>
+            Lägg till bok
+          </button>
       </div>
+      </div>
+      </div>
+      
     </div>
   );
 }

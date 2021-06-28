@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios'
 import './App.css';
 import HomePage from './Home/Home';
 import BookPage from './Book/Book';
@@ -12,9 +13,7 @@ class App extends Component {
     return (
       <Router>
         <Route path='/' exact component={Home} />
-        <Route path='/search' render={(props) => (
-          <BookPage bookInfo={props.location.state.bookInfo}/>
-        )} />
+        <Route path='/search' render={ (props) => <Search bookInfo={props.location.state.bookInfo} /> }/>
         <Route path='/add' exact component={AddBook} />
       </Router>
     );
@@ -38,10 +37,29 @@ const Home = () => {
   />;
 }
 
+const Search = ({bookInfo}) => {
+  const history = useHistory();
+  
+  return <BookPage bookInfo={bookInfo} goBack={() => {
+      history.push({
+        pathname: '/'
+      })
+    }}
+  />
+}
+
 const AddBook = () => {
+  const history = useHistory();
+
   return <AddBookPage add={async (bookInfo) => {
     await postBook(bookInfo)
-  }} />;
+  }} 
+    goBack={() => {
+      history.push({
+        pathname: '/'
+      })
+    }}
+  />;
 }
 
 const getBook = async(searchString) => {
@@ -56,18 +74,9 @@ const getBook = async(searchString) => {
 };
 
 const postBook = async (bookInfo) => {
-  // let query = ""
+ const response = await axios.post("/add", { bookInfo: bookInfo })
 
-  // for (const [key, value] of Object.entries(bookInfo)) {
-  //   console.log(`${key}: ${value}`);
-  //   query += `${key}=${value}&`
-  // }
-
-  await fetch('/post', {
-    method: 'POST',
-    body: JSON.stringify({bookInfo}),
-    headers: {"Content-Type": "application/json"}
-  })
+  alert(response.data)
 }
 
 export default App;

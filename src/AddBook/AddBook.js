@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './AddBook.css';
 
-const AddBook = ({ add }) => {
+const AddBook = ({ add, goBack }) => {
     const [search, setSearch] = useState("")
     const [title, setTitle] = useState("")
     const [author, setAuthor] = useState("")
@@ -19,10 +19,15 @@ const AddBook = ({ add }) => {
             alert("Ange endast siffror")
             return
         }
-        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn%3D${query}`)
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=40`)
         const json = await response.json()
 
-        console.log("JSON", json)
+        // console.log("JSON", json)
+
+        // const filtered = json.items.filter(el => el.volumeInfo.industryIdentifiers[0].identifier === query)
+
+        // console.log("FILTERED", filtered)
+        
         if(json.totalItems === 0) {
             alert("Inget resultat hittades")
             return
@@ -78,7 +83,10 @@ const AddBook = ({ add }) => {
                     <input type="text" placeholder={pubDate} />
                 </div>
             </div>
-            <button className='button' id="addButton" onClick={() => add(bookInfo)}>Lägg till</button>
+            <div id="buttonContainer">
+                <button className='button' id="addButton" onClick={() => add(bookInfo)}>Lägg till</button>
+                <button className='button' id="backButton" onClick={() => goBack()}>Gå tillbaka</button>
+            </div>
         </div>
     )
 }

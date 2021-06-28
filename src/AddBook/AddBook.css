@@ -47,6 +47,7 @@
 .bookImg {
     border: 1px solid grey;
     margin-right: 5%;
+    min-width: 235px;
 }
 
 .bookInfo p {
@@ -58,6 +59,15 @@
     width: 500px;
 }
 
+#buttonContainer {
+    display: flex;
+    flex-direction: row;
+  }
+
 #addButton {
+    margin-top: 30px;
+}
+
+#backButton {
     margin-top: 30px;
 }

@@ -1,6 +1,7 @@
 #mainContainer {
 display: flex;
 flex-direction: row;
+flex-wrap: wrap;
 justify-content: flex-start;
 align-items: center;
 margin-top: 1%;
@@ -11,7 +12,8 @@ margin-top: 1%;
 }
 
 .book {
-  margin: 2%;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 .bookImage {

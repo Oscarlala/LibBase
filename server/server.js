@@ -15,6 +15,8 @@ MongoClient.connect(url, (err, client) => {
     books = db.collection('books') 
 })
 
+app.use(express.json())
+
 app.listen(3002, () => {
     console.log("Listening on 3002")   
 })
@@ -30,10 +32,22 @@ app.get("/get", async (req, res) => {
     res.send(result)
 })
 
-app.post("/post", async (req, res) => {
-    console.log("hejhej", req.body)
-
-    res.send("HEJ")
+app.post("/add", async (req, res) => {
+    const result = await addBookToDatabase(req.body.bookInfo)
+    
+    if(result.modifiedCount == 0 && result.upsertedCount == 0) {
+        console.error("Server: Boken kunde inte läggas till i databasen")
+        res.send("Boken kunde inte läggas till i databasen")
+    } else if(result.modifiedCount > 0) {
+        console.log("Server: Boken uppdaterades i databasen")
+        res.send("Boken uppdaterades i databasen")
+    } else if(result.upsertedCount > 0) {
+        console.log("Server: Boken lades till i databasen")
+        res.send("Boken lades till i databasen")
+    } else {
+        console.error("Server: Något gick fel")
+        res.send("Något gick fel")
+    }
 })
 
 const findByTitle = (title) => {
@@ -43,4 +57,8 @@ const findByTitle = (title) => {
             err ? reject(err) : resolve(items)
         })
     })
+}
+
+const addBookToDatabase = async (bookInfo) => {
+    return await books.updateOne({ ISBN: bookInfo.isbn }, { $set: bookInfo }, { upsert: true })
 }

@@ -1,9 +1,12 @@
 import React from 'react';
 import './Book.css';
 
-const Book = ({bookInfo}) => {
+const Book = ({bookInfo, goBack}) => {
     return (
         <div className="bookPage">
+            <div id="header">
+                <button onClick={() => goBack()}>Gå tillbaka</button>
+            </div>
             <div id="mainContainer">
                 {bookInfo ? <BookData bookInfo={bookInfo} /> : <p>No entries found</p>}
             </div>
